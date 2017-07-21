@@ -16,7 +16,7 @@ const RegExpObj = {
     mobile: /^1(3|5|7|8)[0-9]{9}$/,
     email: /^(\w)+[(\.\w+)|(\-\w+)]*@(\w)+(([\.|\-]\w+)+)$/,
     picType: /^image\.(jpg|png|jpeg|bmp)$/i,
-    passWord: /^(?=.*[a-zA-Z]+)(?=.*\d+)(?=.*[\~\!\@\#\$%\^&\*\(\)_\+\{\}\:\;\"\"\'\/\`\?\<\>\.\,\[\]\-\=\\\|]+)[a-zA-Z0-9\x21-x7e]{8,16}$/
+    passWord: /^(?=.*[a-zA-Z]+)(?=.*\d+)[a-zA-Z0-9]{6,}$/
 }
 
 export default {
@@ -56,5 +56,31 @@ export default {
     },
     toReg (data, key) {
         return RegExpObj[key].test(data)
+    },
+    setCookie (name, val, expires) {
+        // expires是按照分钟计算的
+        let dts = new Date()
+        if (!expires) {
+            document.cookie = name + "=" + escape(val)
+        } else {
+            dts.setTime(dts.getTime() + expires * 60 * 1000)
+            document.cookie = name + "=" + escape(val) + ';expires=' + dts.toUTCString()
+        }
+    },
+    getCookie (name) {
+        let startPosition, endPosition
+        if (document.cookie.length > 0) {
+            startPosition = document.cookie.indexOf(name)
+            if (startPosition > -1) {
+                startPosition += name.length + 1
+            }
+            endPosition = document.cookie.indexOf(';', startPosition)
+            if (endPosition === -1) {
+                endPosition = document.cookie.length
+            }
+            return unescape(document.cookie.substing(startPosition, endPosition))
+        } else {
+            return ''
+        }
     }
 }

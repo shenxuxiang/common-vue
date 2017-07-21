@@ -1,15 +1,15 @@
-import Home from '../pages/home.vue'
-import List from '../pages/list.vue'
-import Detail from '../pages/detail.vue'
+import ShopInfo from '../pages/shopinfo.vue'
+import AddCCInfo from '../pages/addccinfo.vue'
+import Login from '../pages/login.vue'
 
 export default [
     {
-        path: '/', redirect: '/home'
+        path: '/', redirect: '/shopinfo'
     }, {
-        path: '/home', name: 'home', component: Home
+        path: '/shopinfo', name: 'shopinfo', component: ShopInfo
     }, {
-        path: '/list', name: 'list', component: List
+        path: '/addccinfo', name: 'addccinfo', component: AddCCInfo
     }, {
-        path: '/detail', name: 'detail', component: Detail
+        path: '/login', name: 'login', component: Login
     }
 ]

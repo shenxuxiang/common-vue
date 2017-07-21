@@ -27,3 +27,4 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
  * 所有ajax请求都是放在src下面的common/apis.js中 利用axios 进行信息和图片及文件的发送
  * 利用 npm run build 打包 生成build文件。 将该文件中的所有文件发送到服务器就可以了
  */
+# businessPlatform

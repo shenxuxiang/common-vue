@@ -2,9 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App'
 import routes from './router'
-import store from './vuex/store'
+import { Button, Cell } from 'mint-ui'
 
 Vue.use(VueRouter)
+Vue.component(Button.name, Button)
+Vue.component(Cell.name, Cell)
 
 const router = new VueRouter({
     routes
@@ -13,6 +15,5 @@ const router = new VueRouter({
 new Vue({
     el: '#app',
     router,
-    store,
     render: h => h(App)
 })
