@@ -141,9 +141,6 @@
             @emitGetInputValue="getInputValue"
             :isTap="isTap"
         ></type-upload-images>
-
-
-
         <div
             class="login-page-button"
         >
@@ -163,6 +160,7 @@ export default {
     components: { TypeInput, TypeRadio, TypeSelect, TypeUploadImages },
     data () {
         return {
+            hospitalNameList: ['aaa', 'vvv', 'dddd', 'ssss', 'eeeee', 'ffffff'],
             hospitalName: '',
             storeNumber: '',
             ccName: '',
@@ -181,10 +179,9 @@ export default {
             sexList: ['男', '女'],
             sex: '男',
             isMarryList: ['是', '否'],
-            isMarry: false,
-            hospitalNameList: ['aaa', 'vvv', 'dddd', 'ssss', 'eeeee', 'ffffff'],
+            isMarry: '是',
             relationList: ['极好', '好', '一般', '差'],
-            relationship: '',
+            relationship: '极好',
             imageUrlList: [],
             isTap: true
         }

@@ -77,9 +77,6 @@ export default {
 </script>
 <style scoped lang="scss">
 .login-page {
-    position: absolute;
-    top: 0;
-    bottom: 0;
     width: 100%;
     padding: 2rem .2667rem .2667rem;
     background: #EDF1F5;

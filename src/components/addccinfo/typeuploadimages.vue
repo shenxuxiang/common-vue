@@ -26,6 +26,7 @@
                 :key="index"
                 :imgUrl="val"
                 :isTap="isTap"
+                @emitRemoveImageUrl="removeImageUrl"
             ></component-image>
         </div>
     </div>
@@ -55,8 +56,20 @@ export default {
             this.$emit('emitGetInputValue', [bg_img1, bg_img2, bg_img3], this.idx)
         },
         uploadImageCancel () {
-            this.imageList = []
-            this.$emit('emitGetInputValue', [], this.idx)
+            if (this.isTap) {
+                this.imageList = []
+                this.$emit('emitGetInputValue', [], this.idx)
+            }
+        },
+        removeImageUrl (url) {
+            console.log(url)
+            this.imageList = this.imageList.filter(item => (item !== url))
+            setTimeout(() => {
+                console.log(this.imageList)
+            }, 500)
+            // const idx = this.imageList.findIndex(item => (item === url))
+            // this.imageList.splice(idx, 1)
+            // this.$emit('emitGetInputValue', this.imageList, this.idx)
         }
     }
 }
