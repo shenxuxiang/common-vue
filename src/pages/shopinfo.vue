@@ -71,12 +71,17 @@
                 <li>金额</li>
                 <li>是否过件</li>
               </ul>
-              <ul>
-                <li><span>订单{{orderindex}}</span><span class="add-list" @click.stop.prevent="addOrder(index)">添加</span><span @click.stop.prevent="reduceOrder(index, orderindex)" class="reduce-list" v-if="orderindex !== 0">减少</span></li>
+              <ul class="order-list-operat">
+                <li class="order-list-title"><span>订单{{orderindex}}</span><span class="add-list" @click.stop.prevent="addOrder(index)">添加</span><span @click.stop.prevent="reduceOrder(index, orderindex)" class="reduce-list" v-if="orderindex !== 0">减少</span></li>
                 <li><input type="text" v-model="competitorList[index].orderList[orderindex].name"/></li>
                 <li><input type="text" v-model="competitorList[index].orderList[orderindex].periods"/></li>
                 <li><input type="text" v-model="competitorList[index].orderList[orderindex].money"/></li>
-                <li><input type="text" v-model="competitorList[index].orderList[orderindex].isPiece"/></li>
+                <li>
+                  <select name="" v-model="competitorList[index].orderList[orderindex].isPiece">
+                    <option value="0" >是</option>
+                    <option value="1" >否</option>
+                  </select>
+                </li>
               </ul>
             </div>
           </template>
@@ -185,7 +190,8 @@ export default {
       competitorFinal.onDutyPeople = this.onDutyPeople;
       competitorFinal.competitorList = this.competitorList;
       competitorFinal.competitorSummary = this.competitorSummary
-      console.log(competitorFinal)
+
+      console.log(utils.chinaLength(this.competitorSummary))
     }
   }
 }
@@ -218,7 +224,21 @@ input, select {
   li {
     diplay: inline-block;
     width: 1.8rem;
-    height: 25px;
+    height: 27px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+}
+.order-list-operat {
+  input, select{
+    // width: 100%;
+  }
+  li {
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+  .order-list-title {
+    height: 27px;
   }
 }
 .day-people, .day-money {
@@ -318,17 +338,15 @@ input, select {
   overflow: hidden;
   ul {
     float: left;
-    li {
-      padding-top: 5px;
-      padding-bottom: 5px;
-    }
   }
   .add-list, .reduce-list{
     width: 1.5rem;
-    background-color: #ff017d;
+    background-color: skyblue;
     display: inline-block;
-    padding-left: 1rem;
-    color: #fff
+    margin-left: 0.7rem;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
   }
 }
 .day-money {
@@ -350,7 +368,7 @@ input, select {
 .edit-summary {
   margin-top: 20px;
  textarea {
-  width: 8rem;
+  width: 7.7rem;
   height: 100px;
  }
  span {
