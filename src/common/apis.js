@@ -43,10 +43,30 @@ const sendRequest = (url, headers, method, sendData, isUpload) => {
 }
 
 export default {
-    getAPIOne () {
-        return sendRequest('/api/one', {
+    saveCCInfo (data) {
+        return sendRequest('/merchant-business/wechat/saveCCInfo', {
             "Content-Type": "application/json; cahrset=utf-8"
-        }, 'get', {}, true)
+        }, 'post', data, true)
+    },
+    login (data) {
+        return sendRequest('/merchant-business/wechat/login', {
+            "Content-Type": "application/json; cahrset=utf-8"
+        }, 'post', data, true)
+    },
+    upload (data) {
+        return sendRequest('/merchant-business/wechat/upload', {
+            "Content-Type": "application/json; cahrset=utf-8"
+        }, 'post', data, true)
+    },
+    saveStagnationInfo (competitorFinal) {
+      return sendRequest('/merchant-business/wechatveStagnationInfo', {
+          "Content-Type": "application/json; cahrset=utf-8"
+      }, 'POST', competitorFinal, true)
+    },
+    queryStroe (depId) {
+        return sendRequest('/merchant-business/wechat/queryStroe', {
+          "Content-Type": "application/json; cahrset=utf-8"
+        }, 'POST', {"depId": depId}, true)
     },
     cancel () {
         cancel && cancel()

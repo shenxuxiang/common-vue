@@ -78,9 +78,21 @@ export default {
             if (endPosition === -1) {
                 endPosition = document.cookie.length
             }
-            return unescape(document.cookie.substing(startPosition, endPosition))
+            return unescape(document.cookie.substring(startPosition, endPosition))
         } else {
             return ''
         }
+    },
+    chinaLength (obj) {
+        var intLength=0
+        for (var i=0; i<obj.length; i++) {
+            if ((obj.charCodeAt(i) < 0) || (obj.charCodeAt(i) > 255)) {
+                intLength = intLength+2
+            } else {
+                intLength = intLength+1
+            }
+        }
+        return intLength
     }
+
 }

@@ -33,9 +33,7 @@
 </template>
 
 <script>
-import bg_img1 from '../../assets/bg_img1.png'
-import bg_img2 from '../../assets/bg_img2.png'
-import bg_img3 from '../../assets/bg_img3.png'
+import apis from '../../common/apis.js'
 import ComponentImage from './componentimage.vue'
 
 export default {
@@ -51,9 +49,23 @@ export default {
     },
     methods: {
         uploadImage (event) {
-            console.log(event.target.files)
-            this.imageList = [bg_img1, bg_img2, bg_img3]
-            this.$emit('emitGetInputValue', [bg_img1, bg_img2, bg_img3], this.idx)
+            let files = event.target.files
+            let arr = []
+            let len = files.length
+            let form = new FormData()
+            for(var i = 0; i < len; i++) {
+                form.append('file', files[i])
+                this.imageList.push(' ')
+            }
+            apis.upload(form).then(resp => {
+                if (resp.data.code === '00000' && resp.data.result.length > 0) {
+                    let list = resp.data.result.map(item => (item.url))
+                    this.imageList = list
+                    this.$emit('emitGetInputValue', list, this.idx)
+                }
+            }).catch(error => {
+                console.log(error)
+            })
         },
         uploadImageCancel () {
             if (this.isTap) {
@@ -62,14 +74,9 @@ export default {
             }
         },
         removeImageUrl (url) {
-            console.log(url)
-            this.imageList = this.imageList.filter(item => (item !== url))
-            setTimeout(() => {
-                console.log(this.imageList)
-            }, 500)
-            // const idx = this.imageList.findIndex(item => (item === url))
-            // this.imageList.splice(idx, 1)
-            // this.$emit('emitGetInputValue', this.imageList, this.idx)
+            const arr = this.imageList.filter(item => (item !== url))
+            this.imageList = arr
+            this.$emit('emitGetInputValue', arr, this.idx)
         }
     }
 }

@@ -32,6 +32,7 @@ export default {
     },
     directives: {
         onLoad (el, binding) {
+            if (binding.value === ' ') {return}
             let img = new Image()
             img.src = binding.value
             if (img.complete) {

@@ -5,8 +5,6 @@ import routes from './router'
 import { Button, Cell } from 'mint-ui'
 
 Vue.use(VueRouter)
-Vue.component(Button.name, Button)
-Vue.component(Cell.name, Cell)
 
 const router = new VueRouter({
     routes

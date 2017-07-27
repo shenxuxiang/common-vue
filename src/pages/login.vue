@@ -31,14 +31,21 @@
     </div>
 </template>
 <script>
+import md5 from 'md5'
 import { Toast } from 'mint-ui'
 import utils from '../common/utils.js'
+import apis from '../common/apis.js'
 export default {
     data () {
         return {
             userEmail: '',
             userpwd: '',
             isTap: true
+        }
+    },
+    beforeMount () {
+        if (utils.getCookie('uid') !== '') {
+            this.$router.push('/shopinfo')
         }
     },
     mounted () {
@@ -50,14 +57,13 @@ export default {
                 const userEmail = utils.toReg(this.userEmail, 'email')
                 const userpwd = utils.toReg(this.userpwd, 'passWord')
                 let alerts
-                console.log(userEmail, userpwd)
                 if (!userEmail || !userpwd) {
                     if (this.userEmail === '') {
                         alerts = '邮箱不能为空'
                     } else if (this.userpwd === '') {
                         alerts = '密码不能为空'
                     } else {
-                        alerts = '信息填写错误'
+                        alerts = '信息格式填写错误'
                     }
                 } else {
                     alerts = ''
@@ -66,9 +72,26 @@ export default {
                     Toast({
                         message: alerts,
                         duration: 3000
-                    });
+                    })
                 } else {
-                    console.log(this.userEmail, this.userpwd)
+                    apis.login({
+                        email: this.userEmail,
+                        userPwd: md5(this.userpwd)
+                    }).then(resp => {
+                        console.log(resp)
+                        if (resp.data.code === '00000') {
+                            this.$router.push('/shopinfo')
+                            utils.setCookie('uid', resp.data.result.uid)
+                            utils.setCookie('depid', resp.data.result.depid)
+                        } else {
+                            Toast({
+                                message: resp.data.desc,
+                                duration: 3000
+                            })
+                        }
+                    }).catch(error => {
+                        console.log(error)
+                    })
                 }
             }
         }

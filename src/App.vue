@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <template v-if="userName === ''">
+        <template v-if="userId === ''">
             <router-view></router-view>
         </template>
         <template v-else>
@@ -24,25 +24,25 @@
 </template>
 
 <script>
-
+import utils from './common/utils.js'
 export default {
     name: 'app',
     data () {
         return {
-            userName: 'sxx',
+            userId: '',
             ori: ''
         }
     },
     beforeMount () {
-        console.log(this.$route.path)
-        if (this.userName === '') {
-            this.$router.push('/login')
-        }
+        this.getUserId()
         this.ori = 'onorientationchange' in window ? 'orientationchange' : 'resize'
         this.getWindowWidth()
     },
     mounted () {
         window.addEventListener(this.ori, this.orientationChange, false)
+    },
+    beforeUpdate () {
+        this.getUserId()
     },
     beforeDestory () {
         window.removeEventListener(this.ori, this.orientationChange, false)
@@ -66,6 +66,13 @@ export default {
             this.interval = setTimeout(() => {
                 this.getWindowWidth()
             }, 300)
+        },
+        getUserId () {
+            const userId = utils.getCookie('uid')
+            this.userId = userId
+            if (userId === '') {
+                this.$router.push('/login')
+            }
         }
     }
 }

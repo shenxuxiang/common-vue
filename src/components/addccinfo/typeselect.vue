@@ -1,24 +1,27 @@
 <template>
     <div class="select-component">
         <span class="ic-title">{{title}}<i>*</i></span>
-        <select
-            :name="nameType"
-            class="ic-input"
-            @focus="focus($event)"
-            @blur="blur($event)"
-            @change="handleEmit($event)"
-        >
-           <option
-                key="defaultSelect"
-                value="请选择您所需要的选项"
-                disabled
-            >请选择您所需要的选项</option>
-           <option
-                v-for="(val, index) in list"
-                :key="index"
-                :value="val"
-            >{{ val }}</option>
-        </select>
+        <div class="ic-content">
+            <select
+                :name="nameType"
+                class="ic-select"
+                @focus="focus($event)"
+                @blur="blur($event)"
+                @change="handleEmit($event)"
+                v-model="inputVal"
+            >
+               <option
+                    key="defaultSelect"
+                    value="请选择您所需要的选项"
+                    disabled
+                >请选择您所需要的选项</option>
+               <option
+                    v-for="(val, index) in list"
+                    :key="index"
+                    :value="val"
+                >{{ val }}</option>
+            </select>
+        </div>
         <div class='ic-placeholder'>
             <span :class="active ? 'active' : ''"></span>
         </div>
@@ -36,7 +39,15 @@ export default {
     data () {
         return {
             active: false,
-            inputVal: 123
+            inputVal: ''
+        }
+    },
+    beforeMount () {
+        this.inputVal = this.selectVal
+    },
+    watch: {
+        selectVal () {
+            this.inputVal = this.selectVal
         }
     },
     methods: {
@@ -79,9 +90,13 @@ $input-border-color: #c7c7c7;
     font-style: normal;
     color: #ff017d;
 }
-.ic-input {
-    display: block;
+.ic-content {
     flex: 1;
+    height: .96rem;
+}
+.ic-select {
+    display: block;
+    width: 100%;
     height: .96rem;
     padding: 0 .2667rem;
     font-size: $font-size;
@@ -94,6 +109,9 @@ $input-border-color: #c7c7c7;
     z-index: 2;
     -webkit-appearance: none;
     outline: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .ic-placeholder {
     position: absolute;

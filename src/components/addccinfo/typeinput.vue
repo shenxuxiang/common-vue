@@ -8,6 +8,8 @@
             @blur="blur($event)"
             @input="handleEmit($event)"
             :style="getLineHeight"
+            :value="contentVal"
+            :disabled="disabled"
         />
         <div
             :class="transparent ? 'ic-placeholder ' : 'ic-placeholder hide'"
@@ -17,17 +19,29 @@
     </div>
 </template>
 <script>
+import { Toast } from 'mint-ui'
+import utils from '../../common/utils.js'
 export default {
     props: {
         type: String,
         title: String,
         placeHolder: String,
-        idx: String
+        idx: String,
+        contentVal: {
+            default: ''
+        },
+        disabled: {
+            default: false
+        }
     },
     data () {
         return {
             transparent: true,
-            inputVal: 123
+        }
+    },
+    watch: {
+        contentVal () {
+            this.transparent = !this.contentVal ? true : false
         }
     },
     computed: {
@@ -45,11 +59,40 @@ export default {
             window.scrollTo(0, event.target.offsetParent.offsetTop - 150)
         },
         blur (event) {
-            if (event.target.value === '') {
+            const val = event.target.value
+            let alerts = ''
+            if (val === '') {
                 this.transparent = true
+                alerts = this.title + '不能为空'
             } else {
                 this.transparent = false
+                if (this.title.indexOf('cc姓名') > -1) {
+                    alerts = utils.toReg(val, 'chsName') ? '' : this.title + '格式填写错误'
+                }
+                if (this.title.indexOf('手机号') > -1) {
+                    alerts = utils.toReg(val, 'mobile') ? '' : this.title + '格式填写错误'
+                }
+                if (
+                    this.title.indexOf('门店号') > -1 ||
+                    this.title.indexOf('年龄') > -1 ||
+                    this.title.indexOf('身高') > -1 ||
+                    this.title.indexOf('体重') > -1
+                ) {
+                    alerts = /^(?=.*\d+)\d+$/.test(val) ? '' : this.title + '格式填写错误'
+                }
+                if (this.title.indexOf('喜欢的') > -1 || this.title.indexOf('其他') > -1) {
+                    alerts = /^[0-9a-zA-Z\u4e00-\u9fff]+$/.test(val) ? '' : this.title + '格式填写错误'
+                }
             }
+            if (alerts === '') {
+                return
+            } else {
+                Toast({
+                    message: alerts,
+                    duration: 2000
+                });
+            }
+
         },
         handleEmit (event) {
             this.$emit('emitGetInputValue', event.target.value, this.idx)

@@ -7,10 +7,13 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "uat":"node build/aliuat.js",
+    "sit":"node build/sit.js"
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "md5": "^2.2.1",
     "mint-ui": "^2.2.7",
     "node-sass": "^4.5.3",
     "sass-loader": "^6.0.6",
